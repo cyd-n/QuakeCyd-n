@@ -1,7 +1,9 @@
 /*
 Copyright (C) 1996-2001 Id Software, Inc.
-Copyright (C) 2002-2009 John Fitzgibbons and others
+Copyright (C) 2002-2005 John Fitzgibbons and others
+Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Cyd-n
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,7 +29,7 @@ int				wad_numlumps;
 lumpinfo_t		*wad_lumps;
 byte			*wad_base = NULL;
 
-void SwapPic (qpic_t *pic);
+// void SwapPic (qpic_t *pic); It dont wanna work for the c++ port
 
 /*
 ==================

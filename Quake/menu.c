@@ -1689,8 +1689,8 @@ qboolean M_Quit_TextEntry (void)
 
 void M_Quit_Draw (void) //johnfitz -- modified for new quit message
 {
-	char	msg1[] = "QuakeSpasm " QUAKESPASM_VER_STRING;
-	char	msg2[] = "by Ozkan Sezer,Eric Wasylishen,others"; /* msg2/msg3 are [38] at most */
+	char	msg1[] = "QuakeCyd-n " QUAKECYD__N_VER_STRING;
+	char	msg2[] = "by Quidon Roethof(also under the handle Cyd-n)"; /* msg2/msg3 are [38] at most */
 	char	msg3[] = "Press y to quit";
 	int		boxlen;
 

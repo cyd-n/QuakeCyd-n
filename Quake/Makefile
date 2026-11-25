@@ -1,4 +1,4 @@
-# GNU Makefile for QuakeSpasm unix targets.
+# GNU Makefile for QuakeCyd-n unix targets.
 # You need the SDL library fully installed.
 # "make DEBUG=1" to build a debug client.
 # "make SDL_CONFIG=/path/to/sdl-config" for unusual SDL installations.
@@ -44,7 +44,8 @@ DEBUG ?= 0
 # ---------------------------
 
 CC ?= gcc
-LINKER = $(CC)
+CXXOBJS = $(filter $(patsubst %.cpp,%.o,$(wildcard *.cpp)),$(OBJS))
+LINKER  = $(if $(CXXOBJS),$(CXX),$(CC))
 
 STRIP ?= strip
 PKG_CONFIG ?= pkg-config
@@ -78,6 +79,9 @@ endif
 ifeq ($(USE_SDL2),1)
 CFLAGS += -DUSE_SDL2
 endif
+
+CXX ?= g++
+CXXFLAGS = $(CFLAGS) -std=gnu++17
 
 ifeq ($(USE_SDL2),1)
 SDL_CONFIG ?= sdl2-config
@@ -265,17 +269,20 @@ OBJS = strlcat.o \
 
 .PHONY:	clean debug release
 
-DEFAULT_TARGET = quakespasm
+DEFAULT_TARGET = quakecydn
 all: $(DEFAULT_TARGET)
 
 %.o:	%.c
 	$(CC) $(DFLAGS) -c $(CFLAGS) $(SDL_CFLAGS) -o $@ $<
 
-quakespasm:	$(OBJS)
+%.o:	%.cpp
+	$(CXX) $(DFLAGS) -c $(CXXFLAGS) $(SDL_CFLAGS) -o $@ $<
+
+quakecydn:	$(OBJS)
 	$(LINKER) $(OBJS) $(LDFLAGS) $(LIBS) $(SDL_LIBS) -o $@
 	$(call do_strip,$@)
 
-release:	quakespasm
+release:	quakecydn
 debug:
 	$(error Use "make DEBUG=1")
 
@@ -283,14 +290,14 @@ clean:
 	$(RM) *.o *.d $(DEFAULT_TARGET)
 
 ifeq ($(HOST_OS),haiku)
-QS_APP_DIR=$(shell finddir B_APPS_DIRECTORY)/QuakeSpasm/
-install:	quakespasm
+QS_APP_DIR=$(shell finddir B_APPS_DIRECTORY)/QuakeCydn/
+install:	quakecydn
 	mkdir -p $(QS_APP_DIR)
-	cp quakespasm $(QS_APP_DIR)
-	cp quakespasm.pak $(QS_APP_DIR)
+	cp quakecydn $(QS_APP_DIR)
+	cp quakecydn.pak $(QS_APP_DIR)
 else
-install:	quakespasm
-	cp quakespasm /usr/local/games/quake
+install:	quakecydn
+	cp quakecydn /usr/local/games/quake
 endif
 
 sinclude $(OBJS:.o=.d)

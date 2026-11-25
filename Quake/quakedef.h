@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2026 QuakeSpasm developers
+Copyright (C) 2026 Cyd-n
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,22 +38,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define	FITZQUAKE_VERSION	0.85	//johnfitz
 #define	QUAKESPASM_VERSION	0.97
-#define	QUAKESPASM_VER_PATCH	1	// helper to print a string like 0.94.7
-#ifndef	QUAKESPASM_VER_SUFFIX
-#define	QUAKESPASM_VER_SUFFIX		// optional version suffix string literal like "-beta1"
+#define	QUAKECYD__N_VERSION	0.01	// Cyd-n, the double _ need to reference a dash
+#define	QUAKECYD__N_VER_PATCH	0	// helper to print a string like 0.94.7
+#ifndef	QUAKESCYD__N_VER_SUFFIX
+#define	QUAKECYD__N_VER_SUFFIX		// optional version suffix string literal like "-beta1"
 #endif
 
 #define	QS_STRINGIFY_(x)	#x
 #define	QS_STRINGIFY(x)	QS_STRINGIFY_(x)
 
 // combined version string like "0.92.1-beta1"
-#define	QUAKESPASM_VER_STRING	QS_STRINGIFY(QUAKESPASM_VERSION) "." QS_STRINGIFY(QUAKESPASM_VER_PATCH) QUAKESPASM_VER_SUFFIX
+#define	QUAKECYD__N_VER_STRING	QS_STRINGIFY(QUAKECYD__N_VERSION) "." QS_STRINGIFY(QUAKECYD__N_VER_PATCH)
 
-//define	PARANOID			// speed sapping error checking
+#define	GAMENAME	"gameDir"		// directory to look in by default
 
-#define	GAMENAME	"id1"		// directory to look in by default
-
-#define BSP29_VALVE			// enable Half-Life map support
+#define BSP29_VALVE			// enable Half-Life map support, CYD-N: I might remove this is don't know yet this reminder if decide to do it
 
 #include "q_stdinc.h"
 
@@ -74,7 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // fall over
 #define	ROLL		2
-
 
 #define	MAX_QPATH	64		// max length of a quake game pathname
 

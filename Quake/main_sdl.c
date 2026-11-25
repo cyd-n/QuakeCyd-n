@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2005 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Cyd-n
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -93,7 +94,7 @@ int main(int argc, char *argv[])
 
 	Sys_Init();
 
-	Sys_Printf("Initializing QuakeSpasm v%s\n", QUAKESPASM_VER_STRING);
+	Sys_Printf("Initializing QuakeCyd-n v%s\n", QUAKECYD__N_VER_STRING);
 
 	parms.memsize = DEFAULT_MEMORY;
 	if (COM_CheckParm("-heapsize"))

@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Cyd-n
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -109,6 +110,10 @@ GENERIC_TYPES (IMPL_GENERIC_FUNCS, NO_COMMA)
 #define	CLAMP(_minval, x, _maxval)		\
 	((x) < (_minval) ? (_minval) :		\
 	 (x) > (_maxval) ? (_maxval) : (x))
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 typedef struct sizebuf_s
@@ -413,5 +418,9 @@ extern struct cvar_s	registered;
 extern qboolean		standard_quake, rogue, hipnotic;
 extern qboolean		fitzmode;
 	/* if true, run in fitzquake mode disabling custom quakespasm hacks */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif	/* Q_COMMON_H */
