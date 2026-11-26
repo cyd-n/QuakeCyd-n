@@ -1,7 +1,3 @@
-#include "Vector3.h"
-#include <cmath>
-#include <cstdint
-
 #include "MathLibary.h"
 
 Vector3::Vector3(double x, double y, double z) : x(x), y(y), z(z) {}
@@ -85,7 +81,6 @@ void Vector3::Turn(const Vector3& _axis, uint8_t _angle) {
 
     *this = term1.Add(term2.Add(term3));
 }
-
 //TODO: take right and up vectors to properly set yaw and roll, A commit in og source code --Cyd-n
 void Vector3::Angles() {
     Vector3 tempV3;
@@ -94,6 +89,54 @@ void Vector3::Angles() {
     x= -atan2(forward.z, tempV3.Magnitude()) / PI_DIV_BY180; // X is now equals to Pitch
     y= atan2(forward.y, forward.x) / PI_DIV_BY180; // Y is now equals to Yaw
     z= 0; // Z is now equals to Roll
+}
+std::array<Vector3, 3> Vector3::ReturnAngles() const{
+    std::array<Vector3, 3> arrayAngles;
+
+    double angle;
+    double sineRaw, sinePitch, sineYaw, cosineRaw, cosinePitch, cosineYaw;
+
+    angle = x * (PI * 2 / 360); // X is now equals to Pitch
+    sinePitch = std::sin(angle);
+    cosinePitch = std::cos(angle);
+
+    angle = y * (PI * 2 / 360); // Y is now equals to Yaw
+    sineYaw = std::sin(angle);
+    cosineYaw = std::cos(angle);
+
+    angle = z * (PI * 2 / 360); // Z is now equals to Roll
+    sineRaw = std::sin(angle);
+    cosineRaw = std::cos(angle);
+
+    double cosinePitchYaw = cosinePitch * cosineYaw,
+            cosinePitchSineYaw = cosinePitch * sineYaw,
+            negativeSinePitch = -sinePitch;
+
+    double negaOneSineRawPitchCosineYawNegaOneRawSineYaw = -1 * sineRaw * sinePitch * cosineYaw + -1 * cosineRaw * -sineYaw,
+            negaOneSineRawPitchYawNegaOneCosineRawYaw = -1 * sineRaw * sinePitch * sineYaw + -1 * cosineRaw * cosineYaw,
+            negativeSineRawCosinePitch = -1 * sineRaw * cosinePitch;
+
+    double cosineRawSinePitchCosineYawNegaSineRawNegaSineYaw = cosineRaw * sinePitch * cosineYaw + -sineRaw * -sineYaw,
+            cosineRawSinePitchYawNegaSineRawCosineYaw = cosineRaw * sinePitch * sineYaw + -sineRaw * cosineYaw,
+            cosineRawPitch = cosineRaw * cosinePitch;
+
+    arrayAngles[0] = Vector3(cosinePitchYaw, cosinePitchSineYaw, negativeSinePitch); // forward
+    arrayAngles[1] = Vector3(negaOneSineRawPitchCosineYawNegaOneRawSineYaw, negaOneSineRawPitchYawNegaOneCosineRawYaw, negativeSineRawCosinePitch); // right
+    arrayAngles[2] = Vector3(cosineRawSinePitchCosineYawNegaSineRawNegaSineYaw, cosineRawSinePitchYawNegaSineRawCosineYaw, cosineRawPitch); // up
+
+    return arrayAngles;
+}
+
+Vector3 ProjectPointOnPlane(const Vector3& _normal) const {
+    Vector3 result;
+
+    float inverseDenominator = 1.0f / _normal.Dot(_normal);
+
+    float distance = _normal.Dot(*this) * inverseDenominator;
+
+    result = Vector3(x - distance * _normal.x, y - distance * _normal.y, z - distance * _normal.z);
+
+    return result;
 }
 
 void Vector3::Inverse() {
@@ -113,3 +156,50 @@ void Vector3::Normalize() {
         *this = Vector3(x * invMag, y * invMag, z * invMag);
     }
 }
+
+Void Vector3::SetPos(int _pos, float _val) {
+    switch (_pos) {
+        case 0: x = _val; break;
+        case 1: y = _val; break;
+        case 2: z = _val; break;
+    }
+}
+
+std::array<Vector3, 3> Vector3::ToArray() {
+    std::array<Vector3, 3> result;
+    result[0] = x;
+    result[1] = y;
+    result[2] = z;
+
+    return result;
+}
+
+// src is normalized before you set it in the PerpendicularVector
+Vector3 PerpendicularVector(const Vector3& _src) const {
+    int	pos, i;
+    float minimumElemants = 1.0F;
+    Vector3 tempV3;
+
+    // Find the smallest magnitude axially aligned vector
+    std::array<double, 3> vector3Array = _src.ToArray();
+
+    for (pos = 0, i = 0; i < 3; i++) {
+        if (std::fabs(vector3Array[i]) < minimumElemants) {
+            pos = i;
+            minimumElemants = std::fabs(vector3Array[i]);
+        }
+    }
+
+    tempV3.SetPos(pos, 1.0F);
+
+    // project the point onto the plane defined by src
+    tempV3 = tempV3.ProjectPointOnPlane(_src);
+
+    //normalize the result
+    tempV3.Normalize();
+    return  tempV3;
+}
+
+
+
+

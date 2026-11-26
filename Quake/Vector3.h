@@ -2,8 +2,10 @@
 #define VECTOR3_H
 
 #pragma once
-#include <cstdlib>
-
+#include "Vector3.h"
+#include <cmath>
+#include <array>
+#include <cstdint>
 #include "q_stdinc.h"
 
 class Vector3 {
@@ -30,8 +32,6 @@ public:
     Vector3 VectorMultiplyAdd (const Vector3& _scale, const Vector3& _other) const;
     Vector3 VectorMultiplyAdd (const double& _scale, const Vector3& _other) const;
 
-
-
     void Scale (const Vector3& _scale);
     void Scale (const double& _scale);
 
@@ -39,11 +39,17 @@ public:
 
     void Turn(const Vector3& _axis, uint8_t _angle);
     void Angles();
+    std::array<Vector3, 3> ReturnAngles() const;
+
+    Vector3 ProjectPointOnPlane(const Vector3& _normal) const;
+    Vector3 PerpendicularVector(const Vector3& _src) const;
 
     void Inverse();
 
     float Magnitude() const;
     void Normalize();
+
+    std::array<Vector3, 3> ToArray();
 };
 
 #endif

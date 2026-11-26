@@ -43,6 +43,8 @@ public:
     int ToRoundInteger(float _float); // Og: Q_rint
     int QLog2(int _val);
 
+    float Anglemod(float _a);
+
     fixed16_t Invert24To16(fixed16_t val);
 };
 

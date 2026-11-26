@@ -38,6 +38,15 @@ int MathLib::QLog2(int _val) {
     return answer;
 }
 
+float MathLib::Anglemod(float _a) {
+#if 0
+    if (_a >= 0) { _a -= 360*(int)(_a/360); }
+    else { _a += 360*( 1 + (int)(-_a/360) ); }
+#endif
+    _a = (360.0/65536) * ((int)(_a*(65536/360.0)) & 65535);
+    return _a;
+}
+
 // Code of the old devs, I dont really understand this. --Cyd-n
 fixed16_t MathLib::Invert24To16(fixed16_t val) {
     if (val < 256) { return (0xFFFFFFFF); }
