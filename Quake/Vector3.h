@@ -27,9 +27,18 @@ public:
     Vector3 Divide(const Vector3& _other) const;
     Vector3 Divide(const double& _other) const;
 
+    Vector3 VectorMultiplyAdd (const Vector3& _scale, const Vector3& _other) const;
+    Vector3 VectorMultiplyAdd (const double& _scale, const Vector3& _other) const;
+
+
+
+    void Scale (const Vector3& _scale);
+    void Scale (const double& _scale);
+
     Vector3 Cross (const Vector3 _other);
 
-    void TurnVector(const Vector3& _axis, uint8_t _angle);
+    void Turn(const Vector3& _axis, uint8_t _angle);
+    void Angles();
 
     void Inverse();
 

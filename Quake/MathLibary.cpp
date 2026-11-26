@@ -18,6 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#include "MathLibary.h"
+
 #include "MathLib.h"
 
 float MathLib::Deg2Rad(float _degree) { return _degree *  PI_DIV_BY180; }
@@ -27,8 +29,17 @@ int MathLib::ToRoundInteger(float _float) { // Og: Q_rint
     return std::round(_float);
 }
 
+// I did not change anything of th eog code here i dont unstand what happens
+int MathLib::QLog2(int _val) {
+    int answer = 0;
+
+    while (val >>= 1) { answer++; }
+
+    return answer;
+}
+
 // Code of the old devs, I dont really understand this. --Cyd-n
-MathLib::fixed16_t Invert24To16(fixed16_t val) {
+fixed16_t MathLib::Invert24To16(fixed16_t val) {
     if (val < 256) { return (0xFFFFFFFF); }
 
     return (fixed16_t)(((double)0x10000 * (double)0x1000000 / (double)val) + 0.5);

@@ -34,6 +34,34 @@ Vector3 Vector3::Divide(const float& _other) const {
      (z != 0) ? (_other != 0) ? z / _other : 0 : 0);
 }
 
+Vector3 Vector3::VectorMultiplyAdd (const Vector3& _scale, const Vector3& _other) const {
+    Vector3 result;
+    result.x = this->x + _scale.x * _other.x;
+    result.y = this->y + _scale.y * _other.y;
+    result.z = this->z + _scale.z * _other.z;
+
+    return result;
+}
+Vector3 Vector3::VectorMultiplyAdd (const double& _scale, const Vector3& _other) const {
+    Vector3 result;
+    result.x = this->x + _scale * _other.x;
+    result.y = this->y + _scale * _other.y;
+    result.z = this->z + _scale * _other.z;
+
+    return result;
+}
+
+void Vector3::Scale (const Vector3& _scale) {
+    x *= _scale.x;
+    y *= _scale.y;
+    z *= _scale.z;
+}
+void Vector3::Scale (const double& _scale) {
+    x *= _scale;
+    y *= _scale;
+    z *= _scale;
+}
+
 Vector3 Vector3::Cross (const Vector3 _other) {
     Vector3 result;
     result.x = y * _other.z - z * _other.y;
@@ -42,7 +70,7 @@ Vector3 Vector3::Cross (const Vector3 _other) {
     return result;
 }
 
-void Vector3::TurnVector(const Vector3& _axis, uint8_t _angle) {
+void Vector3::Turn(const Vector3& _axis, uint8_t _angle) {
     constexpr float BIN2RAD = (2.0f * PI) / 256.0f;
     float radians = _angle * BIN2RAD;
 
@@ -56,6 +84,16 @@ void Vector3::TurnVector(const Vector3& _axis, uint8_t _angle) {
     Vector3 term3 = _axis.Multiply(f);
 
     *this = term1.Add(term2.Add(term3));
+}
+
+//TODO: take right and up vectors to properly set yaw and roll, A commit in og source code --Cyd-n
+void Vector3::Angles() {
+    Vector3 tempV3;
+
+    Vector3 tempV3 = Vector3(x, y, 0);
+    x= -atan2(forward.z, tempV3.Magnitude()) / PI_DIV_BY180; // X is now equals to Pitch
+    y= atan2(forward.y, forward.x) / PI_DIV_BY180; // Y is now equals to Yaw
+    z= 0; // Z is now equals to Roll
 }
 
 void Vector3::Inverse() {

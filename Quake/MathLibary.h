@@ -39,17 +39,9 @@ public:
     Vector3 vec3_origin = {0,0,0};
 
     float Deg2Rad(float _degree);
+
     int ToRoundInteger(float _float); // Og: Q_rint
-
-    // ??
-
-    Vector3 VectorAngles(const vec3_t forward, vec3_t angles);
-
-    void VectorMA (vec3_t veca, float scale, vec3_t vecb, vec3_t vecc);
-
-    void VectorScale (vec3_t in, vec_t scale, vec3_t out);
-    int Q_log2(int val);
-    // Exit
+    int QLog2(int _val);
 
     fixed16_t Invert24To16(fixed16_t val);
 };
