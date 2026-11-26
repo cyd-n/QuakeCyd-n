@@ -311,6 +311,11 @@ extern filelist_item_t	*demolist;
 void Host_ClearMemory (void);
 void Host_ServerFrame (void);
 void Host_InitCommands (void);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void Host_Init (void);
 void Host_Shutdown(void);
 void Host_Callback_Notify (cvar_t *var);	/* callback function for CVAR_NOTIFY */
@@ -320,6 +325,7 @@ FUNC_NORETURN void Host_EndGame (const char *message, ...) FUNC_PRINTF(1,2);
 #pragma aux Host_Error aborts;
 #pragma aux Host_EndGame aborts;
 #endif
+
 void Host_Frame (float time);
 void Host_Quit_f (void);
 void Host_ClientCommands (const char *fmt, ...) FUNC_PRINTF(1,2);
@@ -343,6 +349,8 @@ extern int		current_skill;	// skill level for currently loaded level (in case
 extern qboolean		isDedicated;
 
 extern int		minimum_memory;
-
+#ifdef __cplusplus
+}
+#endif
 #endif	/* QUAKEDEFS_H */
 

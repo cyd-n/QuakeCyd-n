@@ -28,5 +28,4 @@ snd_mp3.o: snd_mp3.c quakedef.h q_stdinc.h common.h strl_fn.h bspfile.h \
  /usr/include/SDL2/SDL_opengl.h /usr/include/SDL2/SDL_opengl_glext.h \
  console.h wad.h vid.h screen.h draw.h render.h view.h sbar.h q_sound.h \
  client.h gl_model.h modelgen.h spritegn.h world.h image.h gl_texmgr.h \
- input.h keys.h menu.h cdaudio.h glquake.h snd_codec.h snd_codeci.h \
- snd_mp3.h
+ input.h keys.h menu.h cdaudio.h glquake.h

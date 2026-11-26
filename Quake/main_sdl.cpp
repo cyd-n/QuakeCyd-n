@@ -19,7 +19,6 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 */
 
 #include "quakedef.h"
@@ -32,18 +31,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #else
 #include "SDL.h"
 #endif
-#include <stdio.h>
+#include <stdio.h> // later when more files are c++ make it cstdio
 #ifdef __EMSCRIPTEN__
 #include <gl4esinit.h>
 #endif
 
-static void Sys_AtExit (void)
-{
+static void Sys_AtExit (void) {
 	SDL_Quit();
 }
 
-static void Sys_InitSDL (void)
-{
+static void Sys_InitSDL (void) {
 #if defined(USE_SDL2)
 	SDL_version v;
 	SDL_version *sdl_version = &v;
@@ -54,9 +51,7 @@ static void Sys_InitSDL (void)
 
 	Sys_Printf("Found SDL version %i.%i.%i\n",sdl_version->major,sdl_version->minor,sdl_version->patch);
 
-	if (SDL_Init(0) < 0) {
-		Sys_Error("Couldn't init SDL: %s", SDL_GetError());
-	}
+	if (SDL_Init(0) < 0) { Sys_Error("Couldn't init SDL: %s", SDL_GetError()); }
 	atexit(Sys_AtExit);
 }
 
@@ -70,13 +65,12 @@ static quakeparms_t	parms;
 #define main SDL_main
 #endif
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 #ifdef __EMSCRIPTEN__
 	initialize_gl4es();
 #endif
-	int		t;
-	double		time, oldtime, newtime;
+	int	t;
+	double	time, oldtime, newtime;
 
 	host_parms = &parms;
 	parms.basedir = ".";
@@ -97,31 +91,26 @@ int main(int argc, char *argv[])
 	Sys_Printf("Initializing QuakeCyd-n v%s\n", QUAKECYD__N_VER_STRING);
 
 	parms.memsize = DEFAULT_MEMORY;
-	if (COM_CheckParm("-heapsize"))
-	{
+	if (COM_CheckParm("-heapsize")) {
 		t = COM_CheckParm("-heapsize") + 1;
-		if (t < com_argc)
-			parms.memsize = Q_atoi(com_argv[t]) * 1024;
+		if (t < com_argc) { parms.memsize = Q_atoi(com_argv[t]) * 1024; }
 	}
 
 	parms.membase = malloc (parms.memsize);
 
-	if (!parms.membase)
-		Sys_Error ("Not enough memory free; check disk space\n");
+	if (!parms.membase) { Sys_Error ("Not enough memory free; check disk space\n"); }
 
 	Sys_Printf("Host_Init\n");
 	Host_Init();
 
 	oldtime = Sys_DoubleTime();
-	if (isDedicated)
-	{
-		while (1)
-		{
+
+	if (isDedicated) {
+		while (1) {
 			newtime = Sys_DoubleTime ();
 			time = newtime - oldtime;
 
-			while (time < sys_ticrate.value )
-			{
+			while (time < sys_ticrate.value ) {
 				SDL_Delay(1);
 				newtime = Sys_DoubleTime ();
 				time = newtime - oldtime;
@@ -132,30 +121,26 @@ int main(int argc, char *argv[])
 		}
 	}
 	else
-	while (1)
-	{
+	while (1) {
 		/* If we have no input focus at all, sleep a bit */
-		if (!VID_HasMouseOrInputFocus() || cl.paused)
-		{
+		if (!VID_HasMouseOrInputFocus() || cl.paused) {
 			SDL_Delay(16);
 		}
+
 		/* If we're minimised, sleep a bit more */
-		if (VID_IsMinimized())
-		{
+		if (VID_IsMinimized()) {
 			scr_skipupdate = 1;
 			SDL_Delay(32);
-		}
-		else
-		{
+		} else {
 			scr_skipupdate = 0;
 		}
+
 		newtime = Sys_DoubleTime ();
 		time = newtime - oldtime;
 
 		Host_Frame (time);
 
-		if (time < sys_throttle.value && !cls.timedemo)
-			SDL_Delay(1);
+		if (time < sys_throttle.value && !cls.timedemo) { SDL_Delay(1); }
 
 		oldtime = newtime;
 	}

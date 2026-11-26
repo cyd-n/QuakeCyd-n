@@ -1,6 +1,6 @@
-main_sdl.o: main_sdl.c quakedef.h q_stdinc.h common.h strl_fn.h bspfile.h \
- sys.h zone.h mathlib.h cvar.h protocol.h net.h cmd.h crc.h progs.h \
- pr_comp.h progdefs.h progdefs.q1 server.h platform.h \
+main_sdl.o: main_sdl.cpp quakedef.h q_stdinc.h common.h strl_fn.h \
+ bspfile.h sys.h zone.h mathlib.h cvar.h protocol.h net.h cmd.h crc.h \
+ progs.h pr_comp.h progdefs.h progdefs.q1 server.h platform.h \
  /usr/include/SDL2/SDL.h /usr/include/SDL2/SDL_main.h \
  /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_config.h \
  /usr/include/SDL2/SDL_assert.h /usr/include/SDL2/SDL_atomic.h \
