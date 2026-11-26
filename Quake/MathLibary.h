@@ -47,11 +47,9 @@ public:
 
     void VectorMA (vec3_t veca, float scale, vec3_t vecb, vec3_t vecc);
 
-
-    void VectorInverse (vec3_t v);
     void VectorScale (vec3_t in, vec_t scale, vec3_t out);
     int Q_log2(int val);
-
+    // Exit
 
     fixed16_t Invert24To16(fixed16_t val);
 };

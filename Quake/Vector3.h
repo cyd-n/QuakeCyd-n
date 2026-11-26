@@ -19,19 +19,22 @@ public:
     bool Compare(const Vector3& _other) const;
 
     Vector3 Add(const Vector3& _other) const;
+    Vector3 Add(const double& _other) const;
     Vector3 Subtract(const Vector3& _other) const;
+    Vector3 Subtract(const double& _other) const;
     Vector3 Multiply(const Vector3& _other) const;
+    Vector3 Multiply(const double& _other) const;
     Vector3 Divide(const Vector3& _other) const;
+    Vector3 Divide(const double& _other) const;
 
-    Vector3 CrossProduct (const Vector3 _other) const;
+    Vector3 Cross (const Vector3 _other);
 
-    constexpr Vector3 TurnVector(const Vector3& _axis, uint8_t _angle) {
+    void TurnVector(const Vector3& _axis, uint8_t _angle);
+
+    void Inverse();
 
     float Magnitude() const;
-    float Normalize() const;
+    void Normalize();
 };
 
 #endif
-
-#endif
-
