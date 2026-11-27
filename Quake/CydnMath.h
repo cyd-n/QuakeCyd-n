@@ -29,7 +29,7 @@ public:
     // MoveTowards, MoveTowardsAngle, NextPowerOfTwo, PerlinNoise
 
 	// I ported the BoxOnPlaneSide to c++ with the help of ChatGPT. Because I dont understand how macros in C works.
-	inline int BoxOnPlaneSide(Vector3& _mins, Vector3& _maxs, const mplane_t* _plane) {
+	static int BoxOnPlaneSide(Vector3& _mins, Vector3& _maxs, const mplane_t* _plane) {
 		if (_plane->type < 3) {
 			_mins.Vec3ToVec3_t(_mins);
 			if (_plane->dist <= _mins.innerVec_t[_plane->type]) { return 1; }
