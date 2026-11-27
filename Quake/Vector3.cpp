@@ -4,10 +4,6 @@
 
 #include "Vector3.h"
 
-#include <cmath>
-#include <string>
-#include <bits/valarray_after.h>
-
 Vector3 Vector3::operator+(const Vector3 &o) const {
     new Vector3(x + o.x, y + o.y, z + o.z);
 }
@@ -60,9 +56,62 @@ Vector3 Vector3::Left() { return Vector3(-1, 0, 0); }
 Vector3 Vector3::Zero() { return Vector3(0, 0, 0); }
 Vector3 Vector3::One() { return Vector3(1, 1, 1); }
 
-float Vector3::Magnitude() {
-    Vector3& v = *this;
-    return sqrt(DotBySelf(v));
+float Vector3::Magnitude() const {
+    Vector3 v = *this;
+    return sqrt(Dot(v, v));
+}
+Vector3 Vector3::Normalize() const {
+    float mag = this->Magnitude();
+    Vector3	vec = *this;
+
+    if (mag) {
+        float iMag = 1/mag;
+        vec.x *= iMag;
+        vec.y *= iMag;
+        vec.z *= iMag;
+    }
+
+    return vec;
+}
+Vector3 Vector3::Inverse() const {
+    Vector3 vec3 = Vector3::Zero();
+    vec3.x = -vec3.x;
+    vec3.y = -vec3.y;
+    vec3.z = -vec3.z;
+
+    return  vec3;
+}
+Vector3 Vector3::MA (float _scale, Vector3 _other) const {
+    Vector3 vec3 = Vector3::Zero();
+    vec3.x = x + _scale * _other.x;
+    vec3.y = y + _scale * _other.y;
+    vec3.z = z + _scale * _other.z;
+
+    return vec3;
+}
+Vector3 Vector3::Perpendicular(Vector3 _src) const {
+    Vector3 tempV = Vector3::Zero();
+    double minElements = 1.0f;
+    int position = 0,  i = 0;
+
+    // find the smallest magnitude axially aligned vector
+    for (position = 0, i = 0; i < 3; i++ ) {
+        _src.Vec3ToVec3_t(_src);
+        if (fabs(_src.innerVec_t[i]) < minElements) {
+            position = i;
+            minElements = fabs(_src.innerVec_t[i]);
+        }
+    }
+
+    tempV.Vec3ToVec3_t(tempV);
+    tempV.innerVec_t[position] = 1.0F;
+    tempV.Vec3_tToVec3(tempV.innerVec_t);
+
+    // project the point onto the plane defined by src
+    Vector3 result = ProjectPointOnPlane(tempV, _src);
+
+    // normalize the result
+    result.Normalize();
 }
 
 // need a == to
@@ -147,4 +196,88 @@ Vector3 Vector3::Scale(const Vector3& _a, const double& _b) {
     result.z = _a.z * _b;
 
     return result;
+}
+Vector3 ProjectPointOnPlane(const Vector3& _p, const Vector3& _normal) {
+    Vector3 result = Vector3::Zero();
+
+    float invDenom = 1.0F / Vector3::Dot(_normal, _normal);
+    float distance = Vector3::Dot(_normal, _p) * invDenom;
+
+    Vector3 normal = Vector3::Zero();
+    normal.x = _normal.x * invDenom;
+    normal.y = _normal.y * invDenom;
+    normal.z = _normal.z * invDenom;
+
+    result.x = _p.x - distance * normal.x;
+    result.y = _p.y - distance * normal.y;
+    result.z = _p.z - distance * normal.z;
+
+    return result;
+}
+
+//TODO: take right and up vectors to properly set yaw and roll
+Vector3 Vector3::Angles(const Vector3& _forward) {
+	Vector3 tempV = Vector3::Zero();
+
+	tempV.x = _forward.x;
+	tempV.y = _forward.y;
+	tempV.z = 0;
+
+	Vector3 angles = Vector3::Zero();
+	angles.x = -atan2(_forward.z, tempV.Magnitude()/ CydnMath::PI_DIV_180 );
+
+	angles.x = -atan2(_forward.z, tempV.Magnitude()) / CydnMath::PI_DIV_180; // X is pitch
+	angles.y = atan2(_forward.y, _forward.x) / CydnMath::PI_DIV_180; // Y is yaw
+	angles.z = 0; // Z is roll
+}
+
+std::array<Vector3, 3> Vector3::AnglesTo3Vec3(const Vector3& _angle) {
+	std::array<Vector3, 3> vec3Array = {Vector3::Zero(), Vector3::Zero(), Vector3::Zero()};
+
+	Vector3 forward = Vector3::Zero();
+	Vector3 right = Vector3::Zero();
+	Vector3 up = Vector3::Zero();
+
+	float angle;
+	float sineRaw, sinePitch, sineYaw, cosineRaw, cosinePitch, cosineYaw;
+
+	angle = _angle.y * (CydnMath::PI * 2 / 360);
+	sineYaw = std::sin(angle);
+	cosineYaw = std::cos(angle);
+
+	angle = _angle.x * (CydnMath::PI * 2 / 360);
+	sinePitch = std::sin(angle);
+	cosinePitch = std::cos(angle);
+
+	angle = _angle.z * (CydnMath::PI * 2 / 360);
+	sineRaw = std::sin(angle);
+	cosineRaw = std::cos(angle);
+
+	forward.x = cosinePitch * cosineYaw;
+	forward.y = cosinePitch * sineYaw;
+	forward.z = -sinePitch;
+	vec3Array[0] = forward;
+
+	right.x = (-1 * sineRaw * sinePitch * cosineYaw + -1 * cosineRaw * -sineYaw);
+	right.y = (-1 * sineRaw * sinePitch * sineYaw + -1 * cosineRaw * cosineYaw );
+	right.z = -1 * sineRaw * cosinePitch;
+	vec3Array[1] = right;
+
+	up.x = (cosineRaw* sinePitch * cosineYaw + -sineRaw * sineYaw);
+	up.y = (cosineRaw* sinePitch * sineYaw + -sineRaw * cosineYaw);
+	up.z = cosineRaw* cosinePitch;
+	vec3Array[2] = up;
+
+	return vec3Array;
+}
+
+void Vector3::Vec3ToVec3_t(const Vector3& _v) {
+    innerVec_t[0] = _v.x;
+    innerVec_t[1] = _v.y;
+    innerVec_t[2] = _v.z;
+}
+void Vector3::Vec3_tToVec3(const vec3_t& _v) {
+    x = _v[0];
+    y = _v[1];
+    z = _v[2];
 }
