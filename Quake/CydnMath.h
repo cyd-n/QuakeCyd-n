@@ -20,4 +20,4 @@ public:
 };
 
 
-#endif //QUAKESPASM_FORK_CYDNMATH_H
+#endif //CYDNMATH_H
