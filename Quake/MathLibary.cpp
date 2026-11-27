@@ -17,6 +17,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+I used Claude to help port mathlib to C++. I don't have much experience with
+C and C++, so for now I still rely on tools to help me understand the code.
+My goal is to rewrite mathlib by hand, without AI, before 2028.
+
+I don't hate AI. But just as some people don't like making pictures with AI
+because they see drawing as art, I see code as art. I believe hand-written
+code is the most beautiful, not because it is perfect, but because you can
+see and feel the programmer in it.
+
 */
 #include "MathLibary.h"
 
@@ -45,11 +54,4 @@ float MathLib::Anglemod(float _a) {
 #endif
     _a = (360.0/65536) * ((int)(_a*(65536/360.0)) & 65535);
     return _a;
-}
-
-// Code of the old devs, I dont really understand this. --Cyd-n
-fixed16_t MathLib::Invert24To16(fixed16_t val) {
-    if (val < 256) { return (0xFFFFFFFF); }
-
-    return (fixed16_t)(((double)0x10000 * (double)0x1000000 / (double)val) + 0.5);
 }
