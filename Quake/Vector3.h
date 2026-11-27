@@ -32,6 +32,7 @@ public:
     static Vector3 Zero();
 
     // magnitude, normalized, sqrtMagnitude, this[int]
+    float Magnitude();
 
     static bool Equals(const Vector3& _a, const Vector3& _b);
     static void Set(const Vector3& _copyFrom, Vector3& _copyTo);
@@ -40,10 +41,15 @@ public:
     void SetBySelf(const Vector3& _other);
     char* ToString() const;
 
-    // Angle, ClampMagnitude, Cross, Lerp, Distance, Dot, MoveToWards, LerpUnclamped, Min, Max, OrthoNormalize, ProjectOnPlane, Project, Reflect,
-    // RotateToWards, Slerp, Scale, SlerpUnclamped, SmoothDamp
-
-
+    // Angle, ClampMagnitude, Lerp, MoveToWards, LerpUnclamped, OrthoNormalize, Reflect, Project, Slerp
+    // RotateToWards, SlerpUnclamped, SmoothDamp, ProjectOnPlane
+    static float Dot(const Vector3& _a, const Vector3& _b);
+    static Vector3 Cross(const Vector3& _a, const Vector3& _b);
+    static Vector3 Max(const Vector3& _a, const Vector3& _b);
+    static Vector3 Min(const Vector3& _a, const Vector3& _b);
+    static float Distance(const Vector3& _a, const Vector3& _b);
+    static Vector3 Scale(const Vector3& _a, const Vector3& _b);
+    static Vector3 Scale(const Vector3& _a, const double& _b);
 };
 
 

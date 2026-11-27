@@ -2,8 +2,7 @@
 // Created by quidon on 27-11-2026.
 //
 
-#ifndef CYDNMATH_H
-#define CYDNMATH_H
+#pragma once
 
 class CydnMath {
 public:
@@ -19,5 +18,3 @@ public:
     const int SPEED_OF_LIGHT = 299792458;
 };
 
-
-#endif //CYDNMATH_H

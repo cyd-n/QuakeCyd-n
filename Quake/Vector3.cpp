@@ -4,7 +4,9 @@
 
 #include "Vector3.h"
 
+#include <cmath>
 #include <string>
+#include <bits/valarray_after.h>
 
 Vector3 Vector3::operator+(const Vector3 &o) const {
     new Vector3(x + o.x, y + o.y, z + o.z);
@@ -58,6 +60,11 @@ Vector3 Vector3::Left() { return Vector3(-1, 0, 0); }
 Vector3 Vector3::Zero() { return Vector3(0, 0, 0); }
 Vector3 Vector3::One() { return Vector3(1, 1, 1); }
 
+float Vector3::Magnitude() {
+    Vector3& v = *this;
+    return sqrt(DotBySelf(v));
+}
+
 // need a == to
 bool Vector3::Equals(const Vector3& _a, const Vector3& _b) {
     if (_a.x == _b.x && _a.y == _b.y && _a.z == _b.z) {
@@ -86,4 +93,58 @@ char* Vector3::ToString() const {
     std::string returnString = "new";
     returnString = "X:" + std::to_string(x) + ",\n Y:" + std::to_string(y) + ",\n Z:" + std::to_string(z);
     return (char*) returnString.c_str();
+}
+
+float Vector3::Dot(const Vector3& _a, const Vector3& _b) {
+    return _a.x * _b.x + _a.y * _b.y + _a.z * _b.z;
+}
+Vector3 Vector3::Cross (const Vector3& _a, const Vector3& _b) {
+    Vector3 result = Vector3::Zero();
+    result.x = _a.y * _b.z - _a.z * _b.y;
+    result.y = _a.z * _b.x - _a.x * _b.z;
+    result.z = _a.x * _b.y - _a.y * _b.x;
+    return result;
+}
+Vector3 Vector3::Max (const Vector3& _a, const Vector3& _b) {
+    Vector3 result = Vector3::Zero();
+    result.x = (_a.x > _b.x) ? _a.x : _b.x;
+    result.y = (_a.y > _b.y) ? _a.y : _b.y;
+    result.z = (_a.z > _b.z) ? _a.z : _b.z;
+
+    return result;
+}
+Vector3 Vector3::Min (const Vector3& _a, const Vector3& _b) {
+    Vector3 result = Vector3::Zero();
+    result.x = (_a.x < _b.x) ? _a.x : _b.x;
+    result.y = (_a.y < _b.y) ? _a.y : _b.y;
+    result.z = (_a.z < _b.z) ? _a.z : _b.z;
+
+    return result;
+}
+float Vector3::Distance(const Vector3& _a, const Vector3& _b) {
+    double distanceX = _a.x - _b.x;
+    double distanceY = _a.y - _b.y;
+    double distanceZ = _a.z - _b.z;
+
+    distanceX = sqrt(distanceX);
+    distanceY = sqrt(distanceY);
+    distanceZ = sqrt(distanceZ);
+
+    return distanceX + distanceY + distanceZ;
+}
+Vector3 Vector3::Scale(const Vector3& _a, const Vector3& _b) {
+    Vector3 result = Vector3::Zero();
+    result.x = _a.x * _b.x;
+    result.y = _a.y * _b.y;
+    result.z = _a.z * _b.z;
+
+    return result;
+}
+Vector3 Vector3::Scale(const Vector3& _a, const double& _b) {
+    Vector3 result = Vector3::Zero();
+    result.x = _a.x * _b;
+    result.y = _a.y * _b;
+    result.z = _a.z * _b;
+
+    return result;
 }
