@@ -2,8 +2,7 @@
 // Created by quidon on 27-11-2026.
 //
 
-#ifndef VECTOR3_H
-#define VECTOR3_H
+#pragma once
 #include "q_stdinc.h"
 #include <cmath>
 #include <string>
@@ -68,6 +67,3 @@ public:
     void Vec3ToVec3_t(const Vector3& _v);
     void Vec3_tToVec3(const vec3_t& _v);
 };
-
-
-#endif //VECTOR3_H

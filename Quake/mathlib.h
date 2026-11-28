@@ -73,6 +73,7 @@ int GreatestCommonDivisor (int i1, int i2);
 
 float	anglemod(float a);
 
+#endif
 
 
 
