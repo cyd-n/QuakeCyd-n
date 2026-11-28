@@ -200,7 +200,7 @@ SYSOBJ_SYS = pl_linux.o sys_sdl_unix.o
 SYSOBJ_MAIN= main_sdl.o
 
 GLOBJS = \
-	gl_refrag.o \
+	GLEnityFragment.o \
 	gl_rlight.o \
 	gl_rmain.o \
 	gl_fog.o \
@@ -252,6 +252,8 @@ OBJS = strlcat.o \
 	host.o \
 	host_cmd.o \
 	mathlib.o \
+	CydnMath.o \
+	Vector3.o \
 	pr_cmds.o \
 	pr_edict.o \
 	pr_exec.o \
